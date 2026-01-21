@@ -4,13 +4,13 @@ import time
 from urllib.parse import urljoin
 
 # Настройки
-START_URL = 'https://wuxiaworld.ru/apokalipsis-sistema-sinteza-zombi/glava-887-zamuzhem-za-chung-lingom/'
-OUTPUT_FILE = 'Апокалипсис Система Синтеза Зомби 887.txt'
+START_URL = '$url'
+OUTPUT_FILE = '$name_example.txt'
 DELAY_SECONDS = 1.5
 XPATH_NEXT_PAGE = '/html/body/main/div[2]/div/div[1]/a[2]'
 XPATH_HEADER = '/html/body/div/div/nav/h1'
 
-# Сюда впишешь фразы рекламы для удаления, например:
+# Сюда вписываешь фразы рекламы для удаления, например:
 # "Читать новеллу", "Подписывайтесь", "Наш телеграм"
 AD_KEYWORDS = [
     
@@ -45,7 +45,7 @@ def get_page_data(url):
     # Получаем заголовок <h1>
     header_elements = tree.xpath(XPATH_HEADER)
     header_text = header_elements[0].text_content().strip() if header_elements else 'Без заголовка'
-    print(f"▶ Заголовок: {header_text}")
+    print(f" Заголовок: {header_text}")
 
     # Получаем основной текст главы
     content_div = tree.xpath('//*[@id="js-full-content"]//p')
@@ -97,14 +97,14 @@ def crawl_all(start_url, output_file):
             if next_url:
                 next_h1 = get_h1_from_url(next_url)
                 if next_h1 == current_h1:
-                    print(f"🛑 Заголовок следующей страницы совпадает с текущим: '{current_h1}'")
+                    print(f" Заголовок следующей страницы совпадает с текущим: '{current_h1}'")
                     print("Парсинг завершён.")
                     break
 
             current_url = next_url
             time.sleep(DELAY_SECONDS)
 
-    print(f"\n✅ Сохранено в файл: {output_file}")
+    print(f"\n Сохранено в файл: {output_file}")
 
 if __name__ == '__main__':
     crawl_all(START_URL, OUTPUT_FILE)
